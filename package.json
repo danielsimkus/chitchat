@@ -1,0 +1,8 @@
+{
+  "require": {
+    "crypto-js" : "*"
+  },
+  "requireDev": {
+    "jasmine-node" : "*"
+  }
+}
