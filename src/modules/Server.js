@@ -6,7 +6,7 @@ function start(route, handlers) {
         console.log('Received request from ' + request.connection.remoteAddress);
         console.log('Pathname: ' + pathname);
 
-        var content = "Something!";
+        var content = route(handlers, pathname, request, response);
 
         response.writeHead(200, {'Content-Type': 'text/plain'});
         response.write(content);
