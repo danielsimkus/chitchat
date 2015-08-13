@@ -12,8 +12,8 @@ function start(route, handlers) {
         response.write(content);
         response.end();
     }
-    http.createServer(onRequest).listen(process.env.PORT);
-    console.log('Server running on port ' + String(process.env.PORT));
+    http.createServer(onRequest).listen(8181);
+    console.log('Server now running on port ' + String(8181));
 }
 
 exports.start = start;
