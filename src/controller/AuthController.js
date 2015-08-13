@@ -1,8 +1,8 @@
-require('url');
 
 function createToken(request, response) {
     console.log("in AuthController::createToken");
     //ToDo: Make it support not using imageUrl and colour (get a random colour)
+    var url = require('url');
     params = url.parse(request.url, true);
     require("../model/Auth");
     var Auth = new Auth();
