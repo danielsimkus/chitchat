@@ -1,5 +1,5 @@
 
-function createToken(request, response) {
+function createToken(response, request) {
     console.log("in AuthController::createToken");
     //ToDo: Make it support not using imageUrl and colour (get a random colour)
     var url = require('url');
@@ -10,7 +10,7 @@ function createToken(request, response) {
     return  Auth.createToken(params.userName, params.imageUrl, params.colour);
 }
 
-function validateToken(request, response) {
+function validateToken(response, request) {
     console.log("in AuthController::validateToken");
     return "You're even more awesome than I thought!";
 }
