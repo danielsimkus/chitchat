@@ -9,7 +9,7 @@ app.get('/auth/create', function(res, req) {
 });
 
 app.get('/auth/validate', function(res, req){
-    var validation = authController.validateToken(res, req)
+    var validation = authController.validateToken(res, req);
     res.send(validation);
 });
 
