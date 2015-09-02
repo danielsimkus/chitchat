@@ -1,7 +1,7 @@
 
 function createToken(response, request) {
     console.log("in AuthController::createToken");
-    console.log(request);
+    params = request.req.query;
     //ToDo: Make it support not using imageUrl and colour (get a random colour)
     var url = require('url');
     params = url.parse(request.url, true);
