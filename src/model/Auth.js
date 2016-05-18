@@ -1,28 +1,32 @@
-var Auth = function() {};
-Auth.prototype.createToken = function(userName, imageUrl, colour) {
+console.log('moo9');
+var encryptionMethod = "aes";
+var crypter = require("crypto-js/" + encryptionMethod);
+var secureKey = "iskFa0f01Ds";
+// ToDo: Save this in a config somewhere
+
+var Auth = function() {}
+
+Auth.prototype.createToken = function(userName, imageUrl, colour, room) {
     // ToDo: add some global key store here but for now use this string
-    var secureKey = "iskFa0f01Ds";
     var jsonObject = {
-        "userName" : userName,
-        "imageUrl" : imageUrl,
-        "colour"   : colour
+        "username" : username,
+        "imageurl" : imageurl,
+        "colour"   : colour,
+        "room"     : room
     };
     var tmpString = JSON.stringify(jsonObject);
-    // ToDo: Allow encryption to be changed
-    var encryptionMethod = "aes";
-    var crypter = require("crypt-js/" + encryptionMethod);
-    if (crypter == null) {
-        // ToDo:  Throw error
-    }
+    console.log(tmpString);
     var secureHash = crypter(tmpString + secureKey);
+    console.log(secureHash);
     // Return entire string as base64
-    jsonObject.push('hash', secureHash);
+    jsonObject.push('token', secureHash);
+    console.log('pushing to obj');
     return btoa(JSON.stringify(jsonObject));
 };
 
 Auth.prototype.validateToken = function(token) {
     var tokenData = this.tokenDecode(token);
-    var newToken = this.createToken(jsonObject.userName, jsonObject.imageUrl,jsonObject.colour);
+    var newToken = this.createToken(tokenData.username, tokenData.imageurl,tokenData.colour,tokenData.room);
     if (newToken != token) {
         return null;
     } else {
@@ -36,3 +40,5 @@ Auth.prototype.tokenDecode = function(token) {
     var string = atob(token);
     return JSON.parse(string);
 };
+
+module.exports = Auth;
