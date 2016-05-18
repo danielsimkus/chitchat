@@ -2,14 +2,16 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+
 var authController = require('./controller/AuthController');
-app.get('/auth/create', function(res, req) {
-    var token = authController.createToken(res, req);
-    res.send(token);
+app.get('/auth/create', function(req, res) {
+    var token = authController.createToken(req, res);
+    console.log("returning: " + token);
+    res.send(JSON.stringify(token));
 });
 
-app.get('/auth/validate', function(res, req){
-    var validation = authController.validateToken(res, req);
+app.get('/auth/validate', function(req, res){
+    var validation = authController.validateToken(req, res);
     res.send(validation);
 });
 
