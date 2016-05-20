@@ -10,7 +10,7 @@ $possibleColours = [
     '#11ff11',
     '#1111ff',
 ];
-$nodeHostname = '139.59.188.141';
+$nodeHostname = '127.0.0.1';
 $nodePort = '8181';
 $data['room'] = 'global';
 $token = '';
@@ -104,7 +104,6 @@ if ($data['username']) {
                 padding:5px;
                 height:26px;
             }
-
             .selected.chitchatroombutton{
                 border: 1px solid #67f46c;
             }
