@@ -15,16 +15,17 @@ $data['room'] = 'global';
 $data['username'] = $_GET['username'];
 $data['imageurl'] = $_GET['imageurl'] ?: 'http://2.bp.blogspot.com/-G1vh_uLbyM8/U5W__nOU6eI/AAAAAAAAIIg/v1y8V_TEduI/s1600/coffee-smiley.png';
 $data['colour'] = isset($_GET['colour']) ? $_GET['colour'] : $possibleColours[rand(0,count($possibleColours)-1)];
+if ($data['username']) {
+    $ch = curl_init('http://139.59.188.141:8181/auth/create?' . http_build_query($data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    $response = curl_exec($ch);
 
-$ch = curl_init('http://139.59.188.141:8181/auth/create?' . http_build_query($data));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-$response = curl_exec($ch);
-
-if ($tokenData = json_decode($response, true)) {
-    $token = $tokenData['token'];
-} else {
-    die('Failed to get token');
+    if ($tokenData = json_decode($response, true)) {
+        $token = $tokenData['token'];
+    } else {
+        die('Failed to get token');
+    }
 }
 ?>
 
