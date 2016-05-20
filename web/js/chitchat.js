@@ -3,7 +3,9 @@ $(document).ready(function() {
         template: '#chitchat-template',
         props: [
             'token',
-            'room'
+            'room',
+            'nodeHostname',
+            'nodePort'
         ],
         data: function() {
             return {
@@ -17,7 +19,7 @@ $(document).ready(function() {
         },
         methods: {
             connectToChat: function() {
-                this.socket = io('//139.59.188.141:8181');
+                this.socket = io('//' + this.nodeHostname + this.nodePort);
                 if(typeof this.socket !== 'object') {
                     console.log('Failed to connect to chitchat node server');
                 } else {

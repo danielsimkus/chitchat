@@ -10,17 +10,17 @@ $possibleColours = [
     '#11ff11',
     '#1111ff',
 ];
-
+$nodeHostname = '139.59.188.141';
+$nodePort = '8181';
 $data['room'] = 'global';
 $data['username'] = $_GET['username'] ?: '';
 $data['imageurl'] = $_GET['imageurl'] ?: 'http://2.bp.blogspot.com/-G1vh_uLbyM8/U5W__nOU6eI/AAAAAAAAIIg/v1y8V_TEduI/s1600/coffee-smiley.png';
 $data['colour'] = isset($_GET['colour']) ? $_GET['colour'] : $possibleColours[rand(0,count($possibleColours)-1)];
 if ($data['username']) {
-    $ch = curl_init('http://139.59.188.141:8181/auth/create?' . http_build_query($data));
+    $ch = curl_init('http://' . $nodeHostname . ':' . $nodePort . '/auth/create?' . http_build_query($data));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
     $response = curl_exec($ch);
-
     if ($tokenData = json_decode($response, true)) {
         $token = $tokenData['token'];
     } else {
@@ -111,7 +111,7 @@ if ($data['username']) {
     </head>
     <body>
         <div id="chatContainer">
-            <chitchat room="<?=$data['room']?>" token="<?=$token?>"></chitchat>
+            <chitchat room="<?=$data['room']?>" token="<?=$token?>" node-port="<?=$nodePort?>" node-hostname="<?=$nodeHostname?>"></chitchat>
         </div>
     </body>
 </html>
