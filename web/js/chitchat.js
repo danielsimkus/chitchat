@@ -17,7 +17,7 @@ $(document).ready(function() {
         },
         methods: {
             connectToChat: function() {
-                this.socket = io('//139.59.188.141:8181');
+                this.socket = io('//127.0.0.1:8181');
                 if(typeof this.socket !== 'object') {
                     console.log('Failed to connect to chitchat node server');
                 } else {

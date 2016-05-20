@@ -16,7 +16,7 @@ $data['username'] = $_GET['username'];
 $data['imageurl'] = $_GET['imageurl'] ?: 'http://2.bp.blogspot.com/-G1vh_uLbyM8/U5W__nOU6eI/AAAAAAAAIIg/v1y8V_TEduI/s1600/coffee-smiley.png';
 $data['colour'] = isset($_GET['colour']) ? $_GET['colour'] : $possibleColours[rand(0,count($possibleColours)-1)];
 
-$ch = curl_init('http://139.59.188.141:8181/auth/create?' . http_build_query($data));
+$ch = curl_init('http://127.0.0.1:8181/auth/create?' . http_build_query($data));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 $response = curl_exec($ch);
@@ -34,8 +34,8 @@ if ($tokenData = json_decode($response, true)) {
             <div v-bind:class="{chitchatroombutton: true, selected: this.room == 'global'}" v-on:click="this.changeRoom('global')">
                 Global Chat
             </div>
-            <div v-bind:class="{chitchatroombutton: true, selected: this.room == 'bbc1'}" v-on:click="this.changeRoom('bbc1')">
-                BBC One
+            <div v-bind:class="{chitchatroombutton: true, selected: this.room == 'another'}" v-on:click="this.changeRoom('another')">
+                Another
             </div>
         </div>
         <br>
