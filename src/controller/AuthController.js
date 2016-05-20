@@ -1,16 +1,19 @@
 
-function createToken(response, request) {
+function createToken(request, response) {
     console.log("in AuthController::createToken");
-    params = request.req.query;
-    require("../model/Auth");
-    var Auth = new Auth();
+    var params = request.query;
+    var Auth = require("../model/Auth");
+    var authInstance = new Auth();
     // ToDo: Add a way to easily modify the returned headers for json etc..
-    return  Auth.createToken(params.userName, params.imageUrl, params.colour);
+    return  authInstance.createToken(params.username, params.imageurl, params.colour, params.room);
 }
 
-function validateToken(response, request) {
+function validateToken(request, response) {
     console.log("in AuthController::validateToken");
-    return "You're even more awesome than I thought!";
+    var params = request.query;
+    var Auth = require("../model/Auth");
+    var authInstance = new Auth();
+    return authInstance.validateToken(params.token);
 }
 exports.createToken = createToken;
 exports.validateToken = validateToken;

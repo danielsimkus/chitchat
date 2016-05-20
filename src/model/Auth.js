@@ -1,38 +1,70 @@
-var Auth = function() {};
-Auth.prototype.createToken = function(userName, imageUrl, colour) {
+var encryptionMethod = "aes";
+var CryptoJS = require("crypto-js");
+var crypter = require("crypto-js/" + encryptionMethod);
+var secureKey = "iskFa0f01Ds";
+var urlencode = require('urlencode');
+// ToDo: Save this in a config somewhere
+
+function Auth() {
+    // Init
+    this.lockRooms = false;
+
+}
+
+Auth.prototype.createToken = function(
+    username,
+    imageurl,
+    colour,
+    room
+) {
     // ToDo: add some global key store here but for now use this string
-    var secureKey = "iskFa0f01Ds";
-    var jsonObject = {
-        "userName" : userName,
-        "imageUrl" : imageUrl,
-        "colour"   : colour
-    };
-    var tmpString = JSON.stringify(jsonObject);
-    // ToDo: Allow encryption to be changed
-    var encryptionMethod = "aes";
-    var crypter = require("crypt-js/" + encryptionMethod);
-    if (crypter == null) {
-        // ToDo:  Throw error
+    var userDetails = this.createUserDetailsObject(username, imageurl, colour, room, true);
+    if (this.lockRooms == false) {
+        delete userDetails.room;
     }
-    var secureHash = crypter(tmpString + secureKey);
-    // Return entire string as base64
-    jsonObject.push('hash', secureHash);
-    return btoa(JSON.stringify(jsonObject));
+    var token = this.tokenEncode(userDetails);
+    // Client must add this to their users requests, along with all the other data
+    return { token: urlencode(token.toString()) };
 };
 
-Auth.prototype.validateToken = function(token) {
-    var tokenData = this.tokenDecode(token);
-    var newToken = this.createToken(jsonObject.userName, jsonObject.imageUrl,jsonObject.colour);
-    if (newToken != token) {
-        return null;
+Auth.prototype.createUserDetailsObject = function(username, imageurl, colour, room, requiresUrlDecoding) {
+    if (requiresUrlDecoding == true) {
+        return {
+            "username": urlencode.decode(username),
+            "imageurl": urlencode.decode(imageurl),
+            "colour": urlencode.decode(colour),
+            "room": urlencode.decode(room)
+        };
     } else {
-        delete tokenData.hash;
-        return tokenData;
+        return {
+            "username" : username,
+            "imageurl" : imageurl,
+            "colour"   : colour,
+            "room"     : room
+        };
     }
+}
+
+// This will be hit through the node socket, and won't require url decoding on the objects
+Auth.prototype.validateToken = function(
+      token
+) {
+    var decodedString = this.tokenDecode(urlencode.decode(token));
+    if (decodedString) {
+        return decodedString;
+    }
+    return false;
 };
 
-// Turn the token string, into a json Object
-Auth.prototype.tokenDecode = function(token) {
-    var string = atob(token);
-    return JSON.parse(string);
+// Decode token
+Auth.prototype.tokenDecode = function(encodedToken) {
+    decrypted = crypter.decrypt(encodedToken, secureKey);
+    return decrypted.toString(CryptoJS.enc.Utf8);
 };
+
+// Encode token
+Auth.prototype.tokenEncode = function(object) {
+    return crypter.encrypt(JSON.stringify(object), secureKey);
+};
+
+module.exports = Auth;
