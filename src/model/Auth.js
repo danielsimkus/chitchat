@@ -1,14 +1,14 @@
 var encryptionMethod = "aes";
 var CryptoJS = require("crypto-js");
 var crypter = require("crypto-js/" + encryptionMethod);
-var secureKey = "iskFa0f01Ds";
 var urlencode = require('urlencode');
+var config = require('config');
+var secureKey = config.get('auth.secureKey');
 // ToDo: Save this in a config somewhere
 
 function Auth() {
     // Init
     this.lockRooms = false;
-
 }
 
 Auth.prototype.createToken = function(

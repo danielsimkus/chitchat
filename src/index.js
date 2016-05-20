@@ -1,10 +1,12 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var config = require('config');
 var redisChatModel = require('./model/RedisChat.js');
-var RedisChat = new redisChatModel('127.0.0.1', 6379);
 
+var RedisChat = new redisChatModel(config.get('redis.hostName'), config.get('redis.port'));
 var authController = require('./controller/AuthController');
+
 app.get('/auth/create', function(req, res) {
     var token = authController.createToken(req, res);
     res.send(JSON.stringify(token));
@@ -79,7 +81,6 @@ io.on('connection', function(socket){
     })
 });
 
-
-http.listen(8181, function(){
-    console.log('listening on *:8181');
+http.listen(config.get('port'), function(){
+    console.log('listening on *:' + config.get('port'));
 });
