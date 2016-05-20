@@ -2,7 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var redisChatModel = require('./model/RedisChat.js');
-var RedisChat = new redisChatModel('139.59.188.141', 6379);
+var RedisChat = new redisChatModel('127.0.0.1', 6379);
 
 var authController = require('./controller/AuthController');
 app.get('/auth/create', function(req, res) {

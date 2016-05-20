@@ -13,6 +13,7 @@ $possibleColours = [
 $nodeHostname = '139.59.188.141';
 $nodePort = '8181';
 $data['room'] = 'global';
+$token = '';
 $data['username'] = $_GET['username'] ?: '';
 $data['imageurl'] = $_GET['imageurl'] ?: 'http://2.bp.blogspot.com/-G1vh_uLbyM8/U5W__nOU6eI/AAAAAAAAIIg/v1y8V_TEduI/s1600/coffee-smiley.png';
 $data['colour'] = isset($_GET['colour']) ? $_GET['colour'] : $possibleColours[rand(0,count($possibleColours)-1)];
@@ -35,8 +36,8 @@ if ($data['username']) {
             <div v-bind:class="{chitchatroombutton: true, selected: this.room == 'global'}" v-on:click="this.changeRoom('global')">
                 Global Chat
             </div>
-            <div v-bind:class="{chitchatroombutton: true, selected: this.room == 'bbc1'}" v-on:click="this.changeRoom('bbc1')">
-                BBC One
+            <div v-bind:class="{chitchatroombutton: true, selected: this.room == 'another'}" v-on:click="this.changeRoom('another')">
+                Another
             </div>
         </div>
         <br>
