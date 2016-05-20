@@ -19,7 +19,7 @@ $(document).ready(function() {
         },
         methods: {
             connectToChat: function() {
-                this.socket = io('//' + this.nodeHostname + this.nodePort);
+                this.socket = io('//' + this.nodeHostname + ':' + this.nodePort);
                 if(typeof this.socket !== 'object') {
                     console.log('Failed to connect to chitchat node server');
                 } else {
