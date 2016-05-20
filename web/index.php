@@ -12,7 +12,7 @@ $possibleColours = [
 ];
 
 $data['room'] = 'global';
-$data['username'] = $_GET['username'];
+$data['username'] = $_GET['username'] ?: '';
 $data['imageurl'] = $_GET['imageurl'] ?: 'http://2.bp.blogspot.com/-G1vh_uLbyM8/U5W__nOU6eI/AAAAAAAAIIg/v1y8V_TEduI/s1600/coffee-smiley.png';
 $data['colour'] = isset($_GET['colour']) ? $_GET['colour'] : $possibleColours[rand(0,count($possibleColours)-1)];
 if ($data['username']) {
