@@ -3,7 +3,6 @@ function createToken(request, response) {
     console.log("in AuthController::createToken");
     var params = request.query;
     var Auth = require("../model/Auth");
-    console.log(params);
     var authInstance = new Auth();
     // ToDo: Add a way to easily modify the returned headers for json etc..
     return  authInstance.createToken(params.username, params.imageurl, params.colour, params.room);

@@ -1,4 +1,3 @@
-console.log('moo9');
 var encryptionMethod = "aes";
 var CryptoJS = require("crypto-js");
 var crypter = require("crypto-js/" + encryptionMethod);
@@ -6,12 +5,10 @@ var secureKey = "iskFa0f01Ds";
 var urlencode = require('urlencode');
 // ToDo: Save this in a config somewhere
 
-var atob = require('atob');
-var btoa = require('btoa');
-
-
 function Auth() {
     // Init
+    this.lockRooms = false;
+
 }
 
 Auth.prototype.createToken = function(
@@ -22,6 +19,9 @@ Auth.prototype.createToken = function(
 ) {
     // ToDo: add some global key store here but for now use this string
     var userDetails = this.createUserDetailsObject(username, imageurl, colour, room, true);
+    if (this.lockRooms == false) {
+        delete userDetails.room;
+    }
     var token = this.tokenEncode(userDetails);
     // Client must add this to their users requests, along with all the other data
     return { token: urlencode(token.toString()) };
@@ -58,7 +58,6 @@ Auth.prototype.validateToken = function(
 
 // Decode token
 Auth.prototype.tokenDecode = function(encodedToken) {
-
     decrypted = crypter.decrypt(encodedToken, secureKey);
     return decrypted.toString(CryptoJS.enc.Utf8);
 };
