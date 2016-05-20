@@ -29,7 +29,15 @@ if ($tokenData = json_decode($response, true)) {
 ?>
 
 <template id='chitchat-template'>
-    <div class="chitchatapp">Channel: {{ room }}<br>
+    <div class="chitchatapp">
+        <div class="chitchatrooms">
+            <div v-bind:class="{chitchatroombutton: true, selected: this.room == 'global'}" v-on:click="this.changeRoom('global')">
+                Global Chat
+            </div>
+            <div v-bind:class="{chitchatroombutton: true, selected: this.room == 'bbc1'}" v-on:click="this.changeRoom('bbc1')">
+                BBC One
+            </div>
+        </div>
         <br>
         <div class="chitchatmessagearea">
             <span class="chitchatmessage" v-for="row in messages">
@@ -43,8 +51,6 @@ if ($tokenData = json_decode($response, true)) {
                 <input class="chitchatsendbutton" type="submit" v-on.prevent:submit="sendMessage(message)" value="Send Message"/><br>
             </form>
         </div>
-        <input type="text" v-model="newRoom"></input>
-        <button v-on:click="changeRoom(newRoom)">change room</button>
     </div>
 </template>
 
@@ -61,7 +67,7 @@ if ($tokenData = json_decode($response, true)) {
                 font-family: 'Helvetica', Verdana, sans-serif;
                 font-size: 14pt;
                 width: 400px;
-                height: 600px;
+                height: 500px;
                 color: #fffbea;
                 background-color: #333333;
             }
@@ -74,6 +80,9 @@ if ($tokenData = json_decode($response, true)) {
             .chitchatmessage {
 
             }
+            .chitchatinputarea {
+
+            }
             .chitchatmessagearea {
                 height:400px;
                 overflow: hidden;
@@ -82,6 +91,20 @@ if ($tokenData = json_decode($response, true)) {
             .chitchatimage {
                 width: 100px;
                 height: 100px;
+            }
+            .chitchatrooms {
+                width:100%;
+            }
+            .chitchatroombutton {
+                display:inline-block;
+                border: 1px solid #e3f4f2;
+                text-align:center;
+                padding:5px;
+                height:26px;
+            }
+
+            .selected.chitchatroombutton{
+                border: 1px solid #67f46c;
             }
         </style>
     </head>
