@@ -32,6 +32,9 @@ $(document).ready(function() {
             },
             updateScrollBar: function() {
                 $(this.messageAreaContainer).scrollTop(99999);
+                if (typeof $(this.messageAreaContainer).closest('.nano').nanoScroller === "function") {
+                    $(this.messageAreaContainer).closest('.nano').nanoScroller();
+                }
             },
             changeRoom: function(newRoom) {
                 this.messages = [];
