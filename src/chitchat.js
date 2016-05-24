@@ -5,7 +5,8 @@ $(document).ready(function() {
             'token',
             'room',
             'nodeHostname',
-            'nodePort'
+            'nodePort',
+            'messageAreaContainer'
         ],
         data: function() {
             return {
@@ -14,7 +15,7 @@ $(document).ready(function() {
                 user: false,
                 messages: [],
                 message: '',
-                retryInterval: false
+                retryInterval: false,
             }
         },
         methods: {
@@ -30,7 +31,7 @@ $(document).ready(function() {
                 this.socket.emit('validateToken', this.token);
             },
             updateScrollBar: function() {
-                $('.chitchatmessagearea').scrollTop(99999);
+                $(this.messageAreaContainer).scrollTop(99999);
             },
             changeRoom: function(newRoom) {
                 this.messages = [];
