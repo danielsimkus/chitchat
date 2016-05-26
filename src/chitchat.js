@@ -43,7 +43,6 @@ $(document).ready(function() {
                 this.requestMessages();
             },
             addMessage: function(msgObj) {
-                console.log("Adding message: " + msgObj.message);
                 this.messages.push(msgObj);
                 if (this.messages.length > 300) {
                     this.messages.splice(0, 50);
@@ -53,15 +52,16 @@ $(document).ready(function() {
                 this.socket.emit('loadMessages', this.room);
             },
             sendMessage: function () {
-                this.socket.emit('sendMessage', this.room, this.message);
+                if (this.message.replace(' ', '').length > 1) {
+                    this.socket.emit('sendMessage', this.room, this.message);
+                }
                 this.message = '';
             },
             setEventListeners: function()
             {
                 this.socket.on('connected', function(that){
-                    console.log('connected');
+                    console.log('connected to chitchat node');
                     if (that.token) {
-                        console.log('validating token');
                         that.validateToken();
                     }
                     that.requestMessages();
@@ -70,20 +70,16 @@ $(document).ready(function() {
 
                 this.socket.on('messages', function(that, data){
                     if (data.room != that.room) {
-                        console.log('loaded messages, but we have changed room since then so not bothering');
-                    } else {
-                        console.log(data.messages.length);
-                        for(i=0; i<data.messages.length; i++) {
 
+                    } else {
+                        for(i=0; i<data.messages.length; i++) {
                             that.addMessage(JSON.parse(data.messages[i]));
                         }
-                        console.log('updating scroll');
                     }
                     // for some reason doesn't work if you do it instantly
                     setTimeout(function(){that.updateScrollBar()}, 100);
                 }.bind(this, this));
                 this.socket.on('message', function(that, data){
-                    console.log('message received');
                     if (data.room == this.room) {
                         this.addMessage(data.message);
                     }
@@ -94,10 +90,9 @@ $(document).ready(function() {
                     that.user = user;
                     that.authenticated = true;
                     $('.chitchatsendbutton').prop('disabled', false);
-                    console.log('authenticated as ' + user.username);
                 }.bind(this, this));
                 this.socket.on('disconnect', function(){
-                    console.log('omg ive been disconnected');
+                    console.log('disconnected from chitchat node');
                     $('.chitchatsendbutton').prop('disabled', true);
                 });
             }
